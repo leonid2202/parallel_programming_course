@@ -1,12 +1,12 @@
 //  Copyright 2019 Chvanov Leonid
 
+#include <omp.h>
 #include <ctime>
 #include <iostream>
 #include <cstdlib>
 #include <algorithm>
 #include <utility>
 #include <functional>
-#include <omp.h>
 
 void insertSort(int arr[], int size, int step) {
     for (int j = step; j < size; j += step) {
@@ -20,12 +20,10 @@ void insertSort(int arr[], int size, int step) {
     }
 }
 
-void shellsort(int arr[], int size)
-{
+void shellsort(int arr[], int size) {
     int i, step;
 
-    for (step = size / 2; step > 0; step /= 2)
-    {
+    for (step = size / 2; step > 0; step /= 2) {
 #pragma omp parallel for shared(arr, step, size) private(i) default(none)
         for (i = 0; i < step; i++)
             insertSort(arr + i, size - i, step);
@@ -60,15 +58,14 @@ int main(int argc, char **argv) {
     arrLin = new int[size];
     arrPar = new int[size];
 
-    for (int i = 0; i<size; i++)
+    for (int i = 0; i < size; i++)
         arrSTL[i] = i;
     std::random_shuffle(arrSTL, arrSTL + size);
 
     copyArray(arrSTL, arrLin, size);
     copyArray(arrSTL, arrPar, size);
 
-    if (size < 100)
-    {
+    if (size < 100) {
         std::cout << "Initial array: ";
         printArray(arrSTL, size);
     }
@@ -88,8 +85,7 @@ int main(int argc, char **argv) {
     parallelTime = omp_get_wtime() - startTime;
 
 
-    if (size < 100)
-    {
+    if (size < 100) {
         std::cout << "Sorted array: ";
         printArray(arrPar, size);
     }
@@ -98,12 +94,10 @@ int main(int argc, char **argv) {
         std::cout << "Parallel shell sort is working" << std::endl;
     else 
         std::cout << "Parallel shell sort isn't working!" << std::endl;
-
     std::cout << "STL time:      " << stlTime << std::endl
         << "Linear time:   " << linearTime << std::endl
         << "Parallel time: " << parallelTime << std::endl
         << "Parallel acceleration = " 
         <<  linearTime / parallelTime << std::endl;
-
     return 0;
 }
