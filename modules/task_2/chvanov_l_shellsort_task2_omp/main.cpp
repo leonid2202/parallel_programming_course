@@ -92,12 +92,12 @@ int main(int argc, char **argv) {
 
     if (compareArrays(arrSTL, arrPar, size))
         std::cout << "Parallel shell sort is working" << std::endl;
-    else 
+    else
         std::cout << "Parallel shell sort isn't working!" << std::endl;
     std::cout << "STL time:      " << stlTime << std::endl
         << "Linear time:   " << linearTime << std::endl
         << "Parallel time: " << parallelTime << std::endl
-        << "Parallel acceleration = " 
+        << "Parallel acceleration = "
         <<  linearTime / parallelTime << std::endl;
     return 0;
 }
