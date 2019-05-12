@@ -39,7 +39,7 @@ void insertSort(int* arr, int size, int step) {
 }
 
 void shellsort(int* arr, int size) {
-    for (int step = size / 2; step > 0; step /= 2) 
+    for (int step = size / 2; step > 0; step /= 2)
         tbb::parallel_for(tbb::blocked_range<int>(0, step),
                             [&](const tbb::blocked_range<int> &r) {
                                 for (int i = r.begin(); i < r.end(); i++) {
@@ -96,7 +96,6 @@ int main(int argc, char **argv) {
         std::cout << "Parallel shell sort is working" << std::endl;
     else
         std::cout << "Parallel shell sort isn't working!" << std::endl;
-    
     std::cout << "STL time:      " << stlTime << std::endl
         << "Linear time:   " << linearTime << std::endl
         << "Parallel time: " << parallelTime << std::endl
